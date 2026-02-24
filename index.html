@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Safe Work Method Statement — Rockhampton Regional Council</title>
+<style>
+/* ── Reset & base ── */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f1f3f5;color:#212529;min-height:100vh}
+input,textarea,select{font-family:inherit}
+
+/* ── Brand tokens ── */
+:root{
+  --navy:#003B5C;--navy-dark:#002A43;
+  --teal:#009B8D;--teal-dark:#007A6F;--teal-light:#E6F7F6;--teal-pale:#F0FAF9;
+  --accent:#F5A623;--accent-bg:#FFF8ED;
+  --warn:#E67E22;--warn-bg:#FEF9E7;
+  --white:#fff;
+  --g50:#F8F9FA;--g100:#F1F3F5;--g200:#E9ECEF;--g300:#DEE2E6;--g500:#ADB5BD;--g600:#6C757D;--g700:#495057;
+}
+
+/* ── Layout ── */
+.page{max-width:960px;margin:0 auto;padding:16px 14px 60px}
+
+/* ── Sticky header ── */
+#app-header{
+  background:var(--navy);position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 12px rgba(0,0,0,.3)
+}
+.header-accent{background:var(--teal);height:5px}
+.header-inner{
+  padding:10px 16px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:8px
+}
+.header-brand{display:flex;align-items:center;gap:12px}
+.header-logo{width:52px;height:52px;background:var(--teal);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:bold;color:var(--white);flex-shrink:0;
+  border:2px solid rgba(255,255,255,.25)}
+.header-title-sub{font-size:10px;color:var(--teal);letter-spacing:2px;text-transform:uppercase;font-weight:bold}
+.header-title-main{font-size:17px;font-weight:bold;color:var(--white);line-height:1.2}
+.header-title-note{font-size:11px;color:rgba(255,255,255,.55)}
+.version-badge{text-align:right}
+.version-badge-label{font-size:10px;color:rgba(255,255,255,.45)}
+.version-badge-val{font-size:18px;font-weight:bold;color:var(--teal)}
+.tab-bar{display:flex;border-top:1px solid rgba(255,255,255,.12)}
+.tab-btn{
+  background:transparent;color:rgba(255,255,255,.6);
+  border:none;border-bottom:3px solid transparent;
+  padding:10px 16px;cursor:pointer;font-size:13px;
+  transition:all .15s
+}
+.tab-btn.active{
+  background:rgba(0,155,141,.22);color:var(--teal);
+  border-bottom:3px solid var(--teal);font-weight:bold
+}
+
+/* ── Cards ── */
+.card{
+  background:var(--white);border:1px solid var(--g200);
+  border-radius:10px;margin-bottom:16px;overflow:hidden;
+  box-shadow:0 1px 6px rgba(0,0,0,.06)
+}
+.card-head{
+  background:var(--navy);color:var(--white);
+  padding:12px 16px;display:flex;align-items:center;gap:8px;
+  font-weight:bold;font-size:14px;letter-spacing:.3px
+}
+.card-head.teal{background:var(--teal)}
+.card-body{padding:16px}
+
+/* ── Info box ── */
+.info-box{
+  background:var(--teal-pale);border:1px solid var(--teal);
+  border-radius:8px;padding:14px;margin-bottom:14px
+}
+.info-box ol{margin:8px 0 0 18px;font-size:13px;color:var(--g700);line-height:1.9}
+.info-title{font-weight:bold;color:var(--navy);font-size:15px;margin-bottom:6px}
+
+/* ── Forms ── */
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field-label{display:flex;flex-direction:column;gap:4px}
+.field-label span{font-size:11px;font-weight:bold;color:var(--navy);text-transform:uppercase;letter-spacing:.5px}
+.field-label input,
+.field-label select,
+.field-label textarea{
+  border:1px solid var(--g300);border-radius:6px;
+  padding:10px 12px;font-size:14px;width:100%;
+  transition:border-color .15s
+}
+.field-label input:focus,
+.field-label select:focus,
+.field-label textarea:focus{
+  outline:none;border-color:var(--teal);
+  box-shadow:0 0 0 2px rgba(0,155,141,.15)
+}
+.span2{grid-column:1/-1}
+
+/* ── Compliance boxes ── */
+.comp-box{border:1px solid var(--g300);border-radius:8px;margin-bottom:12px;overflow:hidden}
+.comp-box-head{background:var(--g100);padding:8px 14px;font-weight:bold;font-size:13px;color:var(--navy);border-bottom:1px solid var(--g300)}
+.comp-box-body{padding:10px 14px;font-size:13px;color:var(--g700);line-height:1.7}
+
+/* ── HRCW selector ── */
+.hrcw-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hrcw-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:12px 12px;border:2px solid var(--g300);
+  border-radius:8px;cursor:pointer;
+  background:var(--white);transition:all .15s;user-select:none
+}
+.hrcw-item.checked{border-color:var(--teal);background:var(--teal-light)}
+.hrcw-item input[type=checkbox]{width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:var(--teal)}
+.hrcw-icon{font-size:20px;line-height:1}
+.hrcw-label{font-size:12.5px;font-weight:bold;color:var(--navy);margin-top:3px;line-height:1.4}
+.warn-box{
+  background:var(--warn-bg);border:1px solid #FAD7A0;
+  border-radius:6px;padding:10px 14px;font-size:13px;
+  color:var(--warn);margin-top:10px
+}
+
+/* ── Section blocks ── */
+.section-block{
+  border:2px solid var(--teal);border-radius:10px;
+  margin-bottom:14px;overflow:hidden;
+  box-shadow:0 2px 10px rgba(0,155,141,.1)
+}
+.section-head{
+  background:var(--teal);padding:12px 16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+.section-head-left{display:flex;align-items:center;gap:10px}
+.section-head-icon{font-size:22px;flex-shrink:0}
+.section-head-title{font-weight:bold;font-size:14px;color:var(--white);line-height:1.3}
+.section-head-count{font-size:12px;color:rgba(255,255,255,.8);margin-top:2px}
+.section-head-arrow{color:var(--white);font-size:16px;flex-shrink:0;transition:transform .2s}
+.section-body{padding:14px}
+
+/* ── Hazard box ── */
+.hazard-box{
+  background:var(--warn-bg);border:1px solid #FAD7A0;
+  border-radius:8px;padding:12px;margin-bottom:14px
+}
+.hazard-title{font-weight:bold;color:var(--warn);font-size:13px;margin-bottom:6px}
+.hazard-item{font-size:13px;color:var(--g700);padding:2px 0;display:flex;gap:8px;line-height:1.5}
+
+/* ── Group label ── */
+.ctrl-group{
+  font-size:11px;font-weight:bold;color:var(--teal-dark);
+  text-transform:uppercase;letter-spacing:1px;
+  margin:14px 0 6px;padding-bottom:4px;
+  border-bottom:1px dashed var(--teal)
+}
+
+/* ── Controls ── */
+.ctrl-row{
+  display:flex;align-items:flex-start;gap:11px;
+  padding:10px 11px;margin-bottom:4px;border-radius:8px;
+  border:1px solid var(--g200);background:var(--g50);
+  cursor:pointer;transition:all .12s;user-select:none
+}
+.ctrl-row.checked{border-color:var(--teal);background:var(--teal-pale)}
+.ctrl-row input[type=checkbox]{
+  width:20px;height:20px;flex-shrink:0;
+  margin-top:2px;accent-color:var(--teal)
+}
+.ctrl-text{font-size:13.5px;color:var(--navy);line-height:1.65;flex:1}
+
+/* ── Inline fill fields ── */
+.fill-input{
+  display:inline-block;
+  border:none;border-bottom:2px solid var(--teal);
+  outline:none;background:rgba(0,155,141,.07);
+  min-width:70px;max-width:170px;font-size:13px;
+  color:var(--navy);font-weight:bold;padding:1px 5px;
+  border-radius:2px 2px 0 0;
+  vertical-align:middle
+}
+.fill-input::placeholder{color:var(--teal-dark);opacity:.75;font-weight:normal}
+.fill-input:focus{background:rgba(0,155,141,.14)}
+
+/* ── Plant grid ── */
+.plant-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:8px}
+.plant-item{display:flex;align-items:center;gap:7px;font-size:13px;padding:4px 2px;cursor:pointer}
+.plant-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--teal);flex-shrink:0}
+
+/* ── Extra controls ── */
+.extra-label{font-size:12px;font-weight:bold;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;margin-top:14px;margin-bottom:5px}
+.extra-area{
+  border:1px solid var(--g300);border-radius:6px;
+  padding:10px 12px;font-size:13px;resize:vertical;
+  width:100%;min-height:70px
+}
+.extra-area:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 2px rgba(0,155,141,.15)}
+
+/* ── Instruction header ── */
+.ctrl-instruction{
+  font-size:12px;font-weight:bold;color:var(--navy);
+  text-transform:uppercase;letter-spacing:.5px;
+  margin-bottom:10px;padding-bottom:6px;
+  border-bottom:1px solid var(--g200)
+}
+
+/* ── Sig table ── */
+.sig-table{width:100%;border-collapse:collapse;font-size:13px}
+.sig-table th{background:var(--navy);color:var(--white);padding:10px;text-align:left;font-size:12px;letter-spacing:.5px}
+.sig-table td{padding:4px 6px;border-bottom:1px solid var(--g200)}
+.sig-table tr:nth-child(even) td{background:var(--g50)}
+.sig-input{
+  border:none;border-bottom:1px solid var(--g300);
+  outline:none;padding:6px 2px;font-size:13px;
+  width:100%;background:transparent
+}
+.sig-input:focus{border-bottom-color:var(--teal)}
+.sig-cell-blank{min-height:38px;display:block}
+
+/* ── Save bar ── */
+#save-bar{
+  background:var(--navy);border-radius:10px;
+  padding:14px 18px;display:flex;align-items:center;
+  gap:10px;flex-wrap:wrap;
+  box-shadow:0 4px 16px rgba(0,59,92,.3)
+}
+.save-note{
+  flex:1;min-width:180px;
+  border:1px solid rgba(255,255,255,.25);border-radius:6px;
+  padding:10px 14px;font-size:13px;
+  background:rgba(255,255,255,.1);color:var(--white)
+}
+.save-note::placeholder{color:rgba(255,255,255,.45)}
+.btn-save{
+  background:var(--teal);color:var(--white);border:none;
+  border-radius:6px;padding:11px 20px;cursor:pointer;
+  font-weight:bold;font-size:14px;flex-shrink:0;white-space:nowrap
+}
+.btn-save:hover{background:var(--teal-dark)}
+.btn-print{
+  background:rgba(255,255,255,.12);color:var(--white);
+  border:1px solid rgba(255,255,255,.25);border-radius:6px;
+  padding:11px 16px;cursor:pointer;font-size:14px;flex-shrink:0
+}
+.btn-print:hover{background:rgba(255,255,255,.2)}
+.btn-add-row{
+  margin-top:10px;background:transparent;
+  border:1px solid var(--teal);color:var(--teal);
+  border-radius:6px;padding:7px 14px;cursor:pointer;
+  font-size:13px;font-weight:bold
+}
+
+/* ── Version list ── */
+.version-item{
+  border:1px solid var(--g300);border-radius:8px;
+  padding:14px;margin-bottom:10px;background:var(--white)
+}
+.version-item.latest{background:var(--teal-pale);border-color:var(--teal)}
+.version-meta{font-weight:bold;color:var(--navy);font-size:14px}
+.version-note{font-size:13px;color:var(--g600);margin-top:4px}
+.version-detail{font-size:12px;color:var(--g500);margin-top:4px}
+.btn-restore{
+  background:var(--teal);color:var(--white);border:none;
+  border-radius:6px;padding:8px 14px;cursor:pointer;
+  font-size:13px;font-weight:bold
+}
+.version-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.latest-badge{
+  background:var(--teal);color:var(--white);
+  font-size:11px;border-radius:4px;padding:2px 6px;margin-left:6px
+}
+
+/* ── Toast ── */
+#toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:var(--navy);color:var(--white);padding:12px 24px;
+  border-radius:8px;z-index:999;font-size:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,.3);
+  border-left:4px solid var(--teal);
+  opacity:0;pointer-events:none;transition:opacity .3s;
+  white-space:nowrap
+}
+#toast.show{opacity:1}
+
+/* ── Tabs ── */
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* ── Responsive ── */
+@media(max-width:600px){
+  .field-grid{grid-template-columns:1fr}
+  .span2{grid-column:1/-1}
+  .hrcw-grid{grid-template-columns:1fr}
+  .plant-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ── PRINT ── */
+@media print{
+  #app-header, #save-bar, .btn-add-row, .no-print{display:none!important}
+  body{background:white}
+  .card{box-shadow:none;border:1px solid #ccc;margin-bottom:12px}
+  .section-block{box-shadow:none}
+  .ctrl-row{background:white!important;border:none!important;padding:4px 0}
+  .ctrl-row input[type=checkbox]{display:none}
+  .ctrl-row.checked::before{content:"☑ ";font-size:14px}
+  .ctrl-row:not(.checked){display:none}
+  .section-block:not(.has-checked){display:none}
+  .fill-input{border:none;border-bottom:1px solid #999;background:transparent}
+  .hrcw-item:not(.checked){display:none}
+  .page{padding:8px}
+  .card-head{background:black!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .section-head{background:var(--teal)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-header{display:block!important}
+  .hazard-box{border:1px solid #ccc!important;background:white!important}
+  .hazard-title{color:black!important}
+}
+.print-header{display:none}
+</style>
+</head>
+<body>
+
+<!-- PRINT HEADER (hidden on screen) -->
+<div class="print-header" style="text-align:center;padding:14px 0 10px;border-bottom:2px solid #003B5C;margin-bottom:14px">
+  <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#009B8D;font-weight:bold">Rockhampton Regional Council</div>
+  <div style="font-size:22px;font-weight:bold;color:#003B5C;margin:2px 0">Safe Work Method Statement</div>
+  <div style="font-size:12px;color:#6C757D">High Risk Construction Work &bull; WHS Regulation Qld s.299</div>
+</div>
+
+<!-- STICKY HEADER -->
+<div id="app-header">
+  <div class="header-accent"></div>
+  <div class="header-inner">
+    <div class="header-brand">
+      <!-- Logo placeholder — replace src with council logo image path when available -->
+      <div class="header-logo" id="logo-circle">RRC</div>
+      <div>
+        <div class="header-title-sub">Rockhampton Regional Council</div>
+        <div class="header-title-main">Safe Work Method Statement</div>
+        <div class="header-title-note">High Risk Construction Work &bull; WHS Reg Qld s.299</div>
+      </div>
+    </div>
+    <div class="version-badge">
+      <div class="version-badge-label">Saved</div>
+      <div class="version-badge-val" id="version-display">Draft</div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('form',this)">📋 SWMS Form</button>
+    <button class="tab-btn" onclick="switchTab('versions',this)">🕐 Versions (<span id="ver-count">0</span>)</button>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ===== FORM TAB ===== -->
+  <div id="tab-form" class="tab-content active">
+
+    <!-- Instructions -->
+    <div class="card" style="border-top:3px solid var(--teal)">
+      <div class="card-body">
+        <div class="info-title">📋 How to Use This SWMS</div>
+        <ol>
+          <li><strong>Fill in</strong> the Site Details section.</li>
+          <li><strong>Select</strong> all High Risk Construction Work (HRCW) types that apply to this job.</li>
+          <li><strong>Tick only</strong> the controls you will actually implement — do not tick everything.</li>
+          <li><strong>Complete all fillable fields</strong> within each control (distances, types, names). Leave no field blank.</li>
+          <li><strong>Brief all workers</strong> on every selected control before any work begins.</li>
+          <li><strong>Review</strong> all controls at the daily prestart. Stop work if any control cannot be maintained. Update the SWMS if conditions change.</li>
+          <li><strong>Save a version</strong> whenever the SWMS is updated so previous versions are preserved.</li>
+          <li><strong>Keep</strong> this SWMS accessible on site at all times. Retain for 2 years after any notifiable incident.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Site Details -->
+    <div class="card">
+      <div class="card-head">📍 Site Details</div>
+      <div class="card-body">
+        <div class="field-grid">
+          <div class="field-label span2">
+            <span>Job Site Address / Location</span>
+            <input type="text" id="f-address" placeholder="e.g. 123 Main Street, Rockhampton">
+          </div>
+          <div class="field-label">
+            <span>Date</span>
+            <input type="date" id="f-date">
+          </div>
+          <div class="field-label">
+            <span>Job Number</span>
+            <input type="text" id="f-jobnum" placeholder="">
+          </div>
+          <div class="field-label">
+            <span>Work Group</span>
+            <input type="text" id="f-workgroup" placeholder="">
+          </div>
+          <div class="field-label">
+            <span>Project Name</span>
+            <input type="text" id="f-project" placeholder="">
+          </div>
+          <div class="field-label">
+            <span>Supervisor Name</span>
+            <input type="text" id="f-supervisor" placeholder="">
+          </div>
+          <div class="field-label">
+            <span>Supervisor Phone</span>
+            <input type="tel" id="f-supphone" placeholder="">
+          </div>
+          <div class="field-label">
+            <span>ABN</span>
+            <input type="text" id="f-abn" placeholder="">
+          </div>
+          <div class="field-label span2">
+            <span>Does a copy need to be given to a Principal Contractor?</span>
+            <select id="f-pc">
+              <option value="">Select…</option>
+              <option>YES</option>
+              <option>NO</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compliance -->
+    <div class="card">
+      <div class="card-head">⚖️ SWMS Compliance — s.299 WHS Regulation Qld</div>
+      <div class="card-body">
+        <div class="comp-box">
+          <div class="comp-box-head">How will compliance with this SWMS be ensured?</div>
+          <div class="comp-box-body">Brief all workers involved in the work on this SWMS — including all selected control measures — before any work begins. Workers must sign the acknowledgement section. Only workers who have been briefed may commence work.</div>
+        </div>
+        <div class="comp-box">
+          <div class="comp-box-head">How will control measures be reviewed and monitored?</div>
+          <div class="comp-box-body"><strong>Review</strong> all selected controls at the daily prestart to confirm they remain suitable for site conditions. <strong>STOP</strong> work immediately if controls are not in place or not being followed. <strong>Update</strong> this SWMS by deselecting controls that no longer apply and selecting replacements. <strong>Re-brief</strong> all workers on any changes and obtain new acknowledgements before recommencing work.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HRCW Selector -->
+    <div class="card">
+      <div class="card-head">☑️ Step 1 — Select all High Risk Construction Work types that apply to this job</div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--g600);margin-bottom:12px">Tick all HRCW types applicable. Control measures for each selected type will appear below.</p>
+        <div class="hrcw-grid" id="hrcw-selector"></div>
+        <div class="warn-box" id="hrcw-warn" style="display:none">⚠️ No HRCW types selected. Select all that apply before proceeding.</div>
+      </div>
+    </div>
+
+    <!-- Controls container -->
+    <div id="controls-area">
+      <div id="controls-header" style="display:none;border-bottom:3px solid var(--teal);padding:8px 0 10px;margin-bottom:12px">
+        <div style="font-size:16px;font-weight:bold;color:var(--navy)">Step 2 — Select Control Measures</div>
+        <div style="font-size:13px;color:var(--g600);margin-top:2px"><strong style="color:var(--warn)">Tick only the controls you will actually implement.</strong> Fill in all specific details in every field — do not leave them blank.</div>
+      </div>
+      <div id="sections-container"></div>
+    </div>
+
+    <!-- Custom HRCW -->
+    <div class="card" id="custom-section" style="display:none">
+      <div class="card-head">➕ Additional HRCW Not Listed Above</div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--g600);margin-bottom:12px">Use this section only if performing High Risk Construction Work not covered above.</p>
+        <div class="field-label" style="margin-bottom:12px">
+          <span>Task / Activity</span>
+          <textarea id="custom-task" rows="2" class="extra-area" placeholder="Describe the task…"></textarea>
+        </div>
+        <div class="field-label" style="margin-bottom:12px">
+          <span>Hazards and Risks</span>
+          <textarea id="custom-hazards" rows="3" class="extra-area" placeholder="List the hazards and risks…"></textarea>
+        </div>
+        <div class="field-label">
+          <span>Control Measures</span>
+          <textarea id="custom-controls" rows="5" class="extra-area" placeholder="List the control measures (verb first — e.g. Install, Wear, Confirm)…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supervisor Sign-off -->
+    <div class="card">
+      <div class="card-head" style="background:var(--navy-dark)">👷 Supervisor Sign-off</div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--g600);margin-bottom:12px">The supervisor confirms this SWMS has been prepared in consultation with workers, is appropriate for the task and site conditions, and that all selected control measures will be implemented and monitored.</p>
+        <div class="field-grid">
+          <div class="field-label">
+            <span>Supervisor Name</span>
+            <input type="text" id="sup-name">
+          </div>
+          <div class="field-label">
+            <span>Position / Role</span>
+            <input type="text" id="sup-role" placeholder="e.g. Work Group Leader">
+          </div>
+          <div class="field-label">
+            <span>Date</span>
+            <input type="date" id="sup-date">
+          </div>
+          <div class="field-label">
+            <span>Signature</span>
+            <input type="text" id="sup-sig" placeholder="Type full name as signature">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Worker Acknowledgements -->
+    <div class="card">
+      <div class="card-head">✍️ Worker Acknowledgements</div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--g600);margin-bottom:12px">I acknowledge that I have been consulted in the preparation of this Safe Work Method Statement. The selected control measures have been explained to me. I understand and agree to comply with this SWMS.</p>
+        <div style="overflow-x:auto">
+          <table class="sig-table">
+            <thead>
+              <tr>
+                <th style="min-width:110px">Date</th>
+                <th style="min-width:160px">Full Name</th>
+                <th style="min-width:140px">Position / Trade</th>
+                <th style="min-width:120px">Signature</th>
+              </tr>
+            </thead>
+            <tbody id="sig-tbody"></tbody>
+          </table>
+        </div>
+        <button class="btn-add-row no-print" onclick="addSigRow()">+ Add Row</button>
+      </div>
+    </div>
+
+    <!-- Save Bar -->
+    <div id="save-bar" class="no-print">
+      <input type="text" class="save-note" id="save-note" placeholder="Version note, e.g. 'Updated barricade type after site walk'">
+      <button class="btn-save" onclick="saveVersion()">💾 Save Version</button>
+      <button class="btn-print" onclick="window.print()">🖨️ Print / PDF</button>
+    </div>
+
+  </div><!-- /form tab -->
+
+  <!-- ===== VERSIONS TAB ===== -->
+  <div id="tab-versions" class="tab-content">
+    <div class="card">
+      <div class="card-head">🕐 Version History</div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--g600);margin-bottom:16px">Each saved version is stored below. Click Restore on any version to reload that SWMS and continue editing from that point.</p>
+        <div id="version-list"><p style="color:var(--g600);font-size:14px">No versions saved yet. Fill in the SWMS and use the Save Version button.</p></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SWMS DATA                                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<script>
+const SECTIONS = [
+  {
+    id:"heights", icon:"⬆️",
+    title:"Risk of a person falling more than 2 metres",
+    hazards:[
+      "Falls from elevated platforms, roofs, embankments or structures",
+      "Falls from ladders, scaffolding, EWPs or scissor lifts",
+      "Falls into excavations, voids or open shafts",
+      "Dropped tools or materials striking workers below"
+    ],
+    controls:[
+      {id:"h1",group:"Elimination / Engineering"},
+      {id:"h2",text:"Redesign the task so all work is performed from ground level where practicable"},
+      {id:"h3",text:"Install <<type e.g. Armco rail / tubular scaffold handrail / temporary mesh>> edge protection to a minimum height of <<height mm e.g. 900>>mm along all open edges before work begins"},
+      {id:"h4",text:"Erect a scaffold below 4m — built to AS/NZS 4576 by a competent person"},
+      {id:"h5",text:"Erect a scaffold above <<height e.g. 4>>m — built by a scaffolder holding a High Risk Work Licence (Class SB or above)"},
+      {id:"h6",text:"Deploy a mobile elevated work platform (EWP) — platform height below 11m — operated by a competent person"},
+      {id:"h7",text:"Deploy an EWP with platform height <<height e.g. 11>>m or greater — operated by a worker holding a High Risk Work Licence (WP class)"},
+      {id:"h8",text:"Deploy a scissor lift operated by a competent person — platform locked at working height before any work begins"},
+      {id:"h9",text:"Use a trestle ladder system with platform and handrails — maximum working height <<height e.g. 2>>m"},
+      {id:"h10",text:"Place <<type e.g. temporary mesh fencing / water-filled barriers / steel tube-and-clip barricade>> barricade <<distance e.g. 2>>m from the open edge — 'No Access – Fall Hazard' signs at all access points"},
+      {id:"h11",text:"Establish a no-go zone <<distance e.g. 2>>m from all unprotected edges using <<method e.g. witches hats and flagging tape / bollards and bunting>>"},
+      {id:"h12",group:"Harness Systems"},
+      {id:"h13",text:"Fit a travel restraint system — anchor point rated to <<kN e.g. 15>>kN — lanyard length set to <<length e.g. 1>>m to prevent the worker reaching the edge"},
+      {id:"h14",text:"Fit a fall arrest harness with shock-absorbing lanyard — anchor point rated to <<kN e.g. 15>>kN — maximum free fall does not exceed <<distance e.g. 0.5>>m"},
+      {id:"h15",text:"Install a self-retracting lifeline (SRL) connected to an overhead anchor rated to <<kN e.g. 15>>kN — inspect before each use"},
+      {id:"h16",group:"Ladders"},
+      {id:"h17",text:"Use a Type 1 industrial ladder secured at the top and base — ladder extends <<distance e.g. 1>>m above the landing"},
+      {id:"h18",group:"Admin / Supervision"},
+      {id:"h19",text:"Conduct work with a minimum of 2 persons present whenever working at or above 2m"},
+      {id:"h20",text:"Brief all workers on fall protection measures and no-go zones before work begins each day"},
+      {id:"h21",text:"Inspect all edge protection, scaffolding and access equipment at the start of each shift and record findings"},
+      {id:"h22",group:"PPE"},
+      {id:"h23",text:"Wear a safety helmet (hard hat) compliant with AS/NZS 1801 at all times"},
+      {id:"h24",text:"Wear safety footwear with ankle support — steel-capped, compliant with AS/NZS 2210"},
+      {id:"h25",text:"Wear Class <<class e.g. D/N>> high visibility clothing compliant with AS/NZS 4602"}
+    ]
+  },
+  {
+    id:"asbestos", icon:"☣️",
+    title:"Work likely to involve disturbing asbestos",
+    hazards:[
+      "Inhalation of asbestos fibres causing asbestosis, mesothelioma or lung cancer",
+      "Contamination of work area, plant, clothing and equipment",
+      "Exposure of other workers or the public to asbestos fibres",
+      "Improper disposal creating ongoing environmental hazard"
+    ],
+    controls:[
+      {id:"as1",group:"Before Work Begins"},
+      {id:"as2",text:"Review the Asbestos Register for <<building / location name>> before any work begins — confirm it is current"},
+      {id:"as3",text:"Review the Asbestos Management Plan for <<building / location name>> and comply with its requirements"},
+      {id:"as4",text:"Sample any unknown material suspected to be asbestos and send to an accredited NATA laboratory before disturbing it"},
+      {id:"as5",text:"Prepare an Asbestos Removal Control Plan — have it on site before removal commences"},
+      {id:"as6",group:"Licensing"},
+      {id:"as7",text:"Engage workers holding a Class A Asbestos Removal Licence for all friable asbestos removal work"},
+      {id:"as8",text:"Engage workers holding a Class B Asbestos Removal Licence for non-friable asbestos removal"},
+      {id:"as9",group:"Area Controls"},
+      {id:"as10",text:"Barricade the work area using <<type e.g. temporary mesh fencing / hoarding>> — exclusion zone extends <<distance e.g. 3>>m beyond the removal area — 'Danger – Asbestos' signs at all entry points"},
+      {id:"as11",text:"Encapsulate the removal area with <<gauge e.g. 200>>µm plastic sheeting — seal all joins with heavy-duty tape before work begins"},
+      {id:"as12",group:"Removal"},
+      {id:"as13",text:"Use non-powered hand tools only during asbestos removal to minimise fibre release"},
+      {id:"as14",text:"Apply wetting agents to asbestos material before and throughout removal"},
+      {id:"as15",text:"Seal removed asbestos in <<gauge e.g. 200>>µm plastic bags — double wrap and seal both layers with tape"},
+      {id:"as16",text:"Label each sealed package 'Asbestos Waste – Do Not Open' before moving"},
+      {id:"as17",text:"Remove asbestos waste from site and dispose at a licensed hazardous waste facility — retain the waste consignment certificate on site"},
+      {id:"as18",group:"Decontamination"},
+      {id:"as19",text:"Provide a decontamination station (wash water, disposable coverall change area) at the exclusion zone boundary"},
+      {id:"as20",text:"Remove and bag disposable coveralls at the boundary before washing hands and face when leaving the exclusion zone"},
+      {id:"as21",group:"PPE"},
+      {id:"as22",text:"Wear a P2 half-face respirator — individually fit-tested for each worker before use"},
+      {id:"as23",text:"Wear Class 5/6 disposable coveralls — remove at the exclusion zone boundary and seal in a labelled bag"},
+      {id:"as24",text:"Wear nitrile disposable gloves — double-glove for friable asbestos"}
+    ]
+  },
+  {
+    id:"confined", icon:"🔲",
+    title:"Work in or near a confined space",
+    hazards:[
+      "Oxygen deficiency or enrichment causing unconsciousness or death",
+      "Toxic or flammable atmosphere (H₂S, methane, CO, chlorine)",
+      "Entrapment due to structural collapse, flooding or engulfment",
+      "Inadvertent energisation of plant or services inside the space"
+    ],
+    controls:[
+      {id:"cs1",group:"Permits and Planning"},
+      {id:"cs2",text:"Complete a Confined Space Risk Assessment for <<space name / location>> before any entry — attach to this SWMS"},
+      {id:"cs3",text:"Obtain a Confined Space Entry Permit authorised by <<role e.g. Work Group Leader / Supervisor>> before each entry event"},
+      {id:"cs4",text:"Redesign the task so work is completed from outside the confined space where practicable"},
+      {id:"cs5",group:"Competency"},
+      {id:"cs6",text:"Confirm all entry workers hold a current Confined Space Entry Certificate — verify certificates before entry"},
+      {id:"cs7",text:"Assign a Standby Person who is trained in confined space rescue — name: <<Standby Person name>> — performs no other task during entry"},
+      {id:"cs8",group:"Atmosphere Testing"},
+      {id:"cs9",text:"Conduct atmospheric testing before entry — record results: O₂ (19.5–23.5%), flammable gas (<5% LEL), CO (<25ppm), H₂S (<1ppm)"},
+      {id:"cs10",text:"Conduct continuous atmospheric monitoring throughout the work using a calibrated multi-gas detector"},
+      {id:"cs11",text:"Conduct mechanical ventilation using <<method e.g. forced-air blower / LEV ducting>> at <<rate e.g. 10>> air changes per minute before and during entry"},
+      {id:"cs12",group:"Isolation"},
+      {id:"cs13",text:"Apply Lock Out / Tag Out (LOTO) to all electrical, hydraulic and pneumatic services connected to the confined space"},
+      {id:"cs14",text:"Positively isolate all pipework entering the confined space using spades or spectacle blinds — confirm zero energy before entry"},
+      {id:"cs15",group:"Access Control"},
+      {id:"cs16",text:"Maintain a sign-in / sign-out register for all persons entering and exiting the confined space"},
+      {id:"cs17",text:"Erect 'Danger – Confined Space – Authorised Persons Only' signs at all entry points"},
+      {id:"cs18",group:"Rescue"},
+      {id:"cs19",text:"Confirm emergency retrieval equipment (harness, tripod, winch, rope) is on site and functional before any entry"},
+      {id:"cs20",text:"Establish an emergency response procedure — activate via <<method e.g. two-way radio to supervisor / phone 000>> if atmosphere changes or a worker is unresponsive"},
+      {id:"cs21",text:"Wear a full-body harness with a lifeline connected to the retrieval device throughout confined space entry"},
+      {id:"cs22",group:"Equipment"},
+      {id:"cs23",text:"Use only intrinsically safe or explosion-proof lighting and equipment inside the confined space"}
+    ]
+  },
+  {
+    id:"trench", icon:"⛏️",
+    title:"Work in or near a shaft or trench deeper than 1.5 m, or a tunnel",
+    hazards:[
+      "Collapse of trench walls causing burial or crushing",
+      "Striking underground services — water, gas, electrical, telecommunications",
+      "Falls into the excavation",
+      "Mobile plant entering the zone of influence causing collapse",
+      "Accumulation of hazardous gases in the excavation"
+    ],
+    controls:[
+      {id:"tr1",group:"Before Excavation"},
+      {id:"tr2",text:"Obtain Dial Before You Dig (DBYD) plans for <<site address>> and review all service locations before any excavation"},
+      {id:"tr3",text:"Obtain an Excavation Permit authorised by <<permit authority>> before excavation begins"},
+      {id:"tr4",text:"Conduct potholing by hand to positively identify all services within <<distance e.g. 500>>mm of the planned excavation line"},
+      {id:"tr5",text:"Conduct potholing by vacuum excavation truck to positively identify all services"},
+      {id:"tr6",text:"Mark all confirmed underground services with spray paint and flags before excavation proceeds"},
+      {id:"tr7",text:"Conduct all excavation within <<distance e.g. 300>>mm of a confirmed service by hand tools only"},
+      {id:"tr8",group:"Trench Support"},
+      {id:"tr9",text:"Install <<type e.g. hydraulic trench box / sheet piling / timber shoring>> shoring before workers enter — extend <<distance e.g. 300>>mm above ground level"},
+      {id:"tr10",text:"Apply benching to trench walls at <<ratio e.g. 1:1>> — confirmed safe by a Geotechnical Engineer"},
+      {id:"tr11",text:"Apply battering to trench walls at <<batter angle e.g. 45>>° — confirmed safe by a Geotechnical Engineer"},
+      {id:"tr12",text:"Obtain written assessment from a Geotechnical Engineer confirming trench stability before worker entry — attach to SWMS"},
+      {id:"tr13",group:"Zone of Influence"},
+      {id:"tr14",text:"Document the zone of influence as <<distance>>m from the trench edge — mark on site before excavation"},
+      {id:"tr15",text:"Place wheel stoppers and barriers <<distance e.g. 1>>m outside the zone of influence to prevent plant from entering"},
+      {id:"tr16",group:"Perimeter and Access"},
+      {id:"tr17",text:"Secure the full trench perimeter using <<type e.g. temporary mesh fencing / water-filled barriers>> before excavation begins"},
+      {id:"tr18",text:"Install a secured ladder at each access point — ladder extends <<distance e.g. 1>>m above the trench edge"},
+      {id:"tr19",text:"Install a ladder every <<distance e.g. 9>>m throughout the trench for emergency egress"},
+      {id:"tr20",text:"Install handrails and toeboards around the full perimeter of the excavation"},
+      {id:"tr21",group:"Spoil and Plant"},
+      {id:"tr22",text:"Place all excavated spoil on the <<downhill / uphill with toeboard>> side — minimum <<distance e.g. 500>>mm from the trench edge"},
+      {id:"tr23",text:"Cover open trench sections with steel mesh when work is not actively in progress"},
+      {id:"tr24",text:"Backfill the trench progressively as work advances — do not leave open sections unsupported overnight"},
+      {id:"tr25",group:"Atmosphere"},
+      {id:"tr26",text:"Test the atmosphere inside the trench before entry — monitor continuously throughout using a calibrated multi-gas detector"}
+    ]
+  },
+  {
+    id:"gas", icon:"💨",
+    title:"Work on or near pressurised gas distribution mains or piping",
+    hazards:[
+      "Gas leak creating a fire or explosion risk",
+      "Gas inhalation causing illness or asphyxiation",
+      "Ground disturbance striking a gas line causing uncontrolled release",
+      "Pressure release causing equipment failure or projectile hazard"
+    ],
+    controls:[
+      {id:"g1",text:"Obtain Dial Before You Dig plans for <<site address>> and confirm gas line location and pressure rating"},
+      {id:"g2",text:"Contact the gas distribution entity <<entity name e.g. Jemena / APA Group — phone: ______>> to confirm gas type, pressure and isolation points before work begins"},
+      {id:"g3",text:"Test for gas leaks using a calibrated gas detector before any work begins in the area"},
+      {id:"g4",text:"Stop all work immediately if a gas leak is detected — isolate the area and notify the gas entity on <<phone number>> — call 000 if required"},
+      {id:"g5",text:"Conduct potholing by hand to positively identify gas lines within <<distance e.g. 500>>mm of planned work"},
+      {id:"g6",text:"Conduct potholing by vacuum excavation truck to positively identify gas lines"},
+      {id:"g7",text:"Mark gas line locations clearly using <<method e.g. spray paint and flags>> before any excavation"},
+      {id:"g8",text:"Obtain written authorisation from the gas entity to isolate or depressurise the line before work on or adjacent to it"},
+      {id:"g9",text:"Conduct positive isolation testing to confirm zero pressure before work commences on the line"},
+      {id:"g10",text:"Conduct personal gas monitoring using a calibrated detector worn by each worker within <<distance e.g. 3>>m of gas piping"},
+      {id:"g11",text:"Eliminate all ignition sources (open flame, petrol/diesel equipment) within <<distance e.g. 5>>m of the work area"},
+      {id:"g12",text:"Establish a no-go exclusion zone of <<distance e.g. 5>>m around any confirmed gas leak or open gas line — marked with <<barrier type>>"},
+      {id:"g13",text:"Position a dry powder fire extinguisher (minimum <<size e.g. 4.5>>kg) at <<location>> during all gas-related work"},
+      {id:"g14",text:"Brief all workers on the emergency evacuation assembly point at <<location>> before work begins"}
+    ]
+  },
+  {
+    id:"electrical", icon:"⚡",
+    title:"Work on or near energised electrical installations or services",
+    hazards:[
+      "Electrocution or electric shock from contact with energised lines or equipment",
+      "Arc flash or electrical burns",
+      "Plant or equipment striking overhead power lines",
+      "Inadvertent energisation of equipment under repair",
+      "Striking underground electrical cables during excavation"
+    ],
+    controls:[
+      {id:"el1",group:"Before Work"},
+      {id:"el2",text:"Obtain Dial Before You Dig plans and identify all underground electrical services before any excavation"},
+      {id:"el3",text:"Contact the electrical entity <<entity e.g. Ergon Energy — phone: ______>> to confirm line voltage, exclusion zone size and requirements for <<address>>"},
+      {id:"el4",group:"Exclusion Zones — Overhead"},
+      {id:"el5",text:"Establish the mandatory exclusion zone — <<distance e.g. 3>>m horizontal from the nearest conductor at <<voltage e.g. 11>>kV — mark with <<type e.g. star pickets and flagging tape / bollards>> before any work begins"},
+      {id:"el6",text:"Confirm maximum height of plant before work begins: <<height e.g. 4.2>>m — confirm no part of the plant can reach the exclusion zone"},
+      {id:"el7",text:"Confirm slew radius of plant before work begins: <<slew radius e.g. 6>>m — plant must not enter the exclusion zone at any point in its arc"},
+      {id:"el8",text:"Engage limit switches on plant to restrict movement and prevent entry into the exclusion zone"},
+      {id:"el9",group:"Spotters"},
+      {id:"el10",text:"Assign a Safety Observer / Spotter dedicated solely to monitoring plant movement near power lines — name: <<Spotter name>> — performs no other task"},
+      {id:"el11",text:"Place a 'Safety Man' (yellow warning marker) directly under overhead lines to visually alert plant operators"},
+      {id:"el12",text:"Request the electrical entity attach powerline markers to the conductors for the duration of works"},
+      {id:"el13",group:"Isolation / De-energisation"},
+      {id:"el14",text:"Request de-energisation of the power line from the electrical entity — obtain written confirmation before any work within the exclusion zone"},
+      {id:"el15",text:"Conduct Lock Out / Tag Out (LOTO) of all electrical sources before work — verified by <<qualified electrician name>>"},
+      {id:"el16",text:"Engage a licenced electrician (Licence No. <<number>>) to perform or supervise all electrical work"},
+      {id:"el17",text:"Request a qualified electrician to pull the fuse from the supply to the work area before work commences"},
+      {id:"el18",group:"Underground Services"},
+      {id:"el19",text:"Conduct potholing by hand to positively identify underground electrical cables within <<distance e.g. 300>>mm of planned work"},
+      {id:"el20",text:"Mark all confirmed underground electrical services with spray paint and flags before excavation proceeds"}
+    ]
+  },
+  {
+    id:"atmosphere", icon:"🌫️",
+    title:"Work in an area that may have a contaminated or flammable atmosphere",
+    hazards:[
+      "Inhalation of toxic fumes, dust or gases",
+      "Ignition of flammable vapours causing fire or explosion",
+      "Respirable crystalline silica (RCS) dust causing silicosis",
+      "Oxygen depletion reducing effectiveness of respiratory protection"
+    ],
+    controls:[
+      {id:"at1",text:"Test the atmosphere before any work begins using a calibrated multi-gas detector — record O₂, LEL, CO and H₂S readings"},
+      {id:"at2",text:"Conduct continuous atmospheric monitoring throughout the work using a calibrated detector"},
+      {id:"at3",text:"Eliminate all petrol or diesel-powered equipment within <<distance e.g. 10>>m — use battery-powered alternatives"},
+      {id:"at4",text:"Eliminate all ignition sources (naked flame, hot works) within <<distance e.g. 5>>m of any flammable atmosphere"},
+      {id:"at5",text:"Apply mechanical extraction ventilation using <<method e.g. forced-air blower / LEV hood>> at the source before and during work"},
+      {id:"at6",text:"Conduct work in an open area with maximum natural ventilation where practicable"},
+      {id:"at7",text:"Positively isolate all pipework to eliminate any substance or gas entering the work area"},
+      {id:"at8",text:"Fit each worker with RPE individually fit-tested — RPE type: <<e.g. P2 half-face / full-face PAPR / SCBA>>"},
+      {id:"at9",text:"Suppress all RCS dust at source using wet suppression — maintain continuous water flow to the cutting or drilling point"},
+      {id:"at10",text:"Connect an H-class vacuum to all tools generating RCS dust"},
+      {id:"at11",text:"Connect an M-class vacuum to all tools generating RCS dust where H-class is not required"},
+      {id:"at12",text:"Attach an integrated dust collection system with a tool-mounted HEPA filter — airflow: <<manufacturer's recommended rate>>"},
+      {id:"at13",text:"Shovel wet RCS material into <<gauge e.g. 200>>µm sealed plastic bags immediately for disposal"},
+      {id:"at14",text:"Prohibit eating, drinking and smoking in or near the contaminated work area"},
+      {id:"at15",text:"Establish a decontamination station at <<location>> — all workers decontaminate before leaving the work area"}
+    ]
+  },
+  {
+    id:"traffic", icon:"🚧",
+    title:"Work on, in or adjacent to a road, railway, shipping lane or other traffic corridor",
+    hazards:[
+      "Workers struck by passing vehicles or trains",
+      "Mobile plant colliding with public vehicles",
+      "Unauthorised vehicle access into the work area",
+      "Missing or incorrectly positioned traffic management devices",
+      "Poor visibility at night or in adverse weather",
+      "Insufficient communication with the rail corridor owner / Protection Officer"
+    ],
+    controls:[
+      {id:"ro1",group:"Traffic Management Planning"},
+      {id:"ro2",text:"Prepare a Temporary Traffic Management Plan (TTMP) using Traffic Guidance Schemes from the MUTCD Queensland — specific to <<job / location>> before any work begins"},
+      {id:"ro3",text:"Engage a qualified Traffic Management Designer to design the Traffic Management Plan for <<job / location>>"},
+      {id:"ro4",text:"Implement all signs, devices and channelising equipment as detailed in the TTMP and in accordance with MUTCD Part 3 (Queensland)"},
+      {id:"ro5",group:"Traffic Control"},
+      {id:"ro6",text:"Deploy a Traffic Controller holding a current Traffic Control Licence at <<location/s>>"},
+      {id:"ro7",text:"Deploy traffic control lights at <<location/s>>"},
+      {id:"ro8",text:"Reduce the posted speed limit in the work zone to <<speed e.g. 40>>km/h using approved speed limit signs as per the TTMP"},
+      {id:"ro9",text:"Place 'Workers Ahead' advisory signs <<distance e.g. 150>>m from the work zone in each approach direction"},
+      {id:"ro10",group:"Separation and Barriers"},
+      {id:"ro11",text:"Separate the work area from live traffic using <<type e.g. water-filled plastic barriers / concrete barriers / bollards with delineation>> at <<distance e.g. 1>>m from the working edge"},
+      {id:"ro12",text:"Inspect all traffic signs and devices at the start of each shift — correct any damage or movement before work resumes"},
+      {id:"ro13",text:"Limit vehicle access to and from the work site to <<designated access/egress point>>"},
+      {id:"ro14",group:"Lighting and Visibility"},
+      {id:"ro15",text:"Provide artificial lighting to the work area during low-light conditions using <<type e.g. lighting towers / truck-mounted floodlights>>"},
+      {id:"ro16",text:"Stop work immediately if visibility drops below <<distance e.g. 100>>m due to weather or insufficient lighting"},
+      {id:"ro17",group:"Workers in the Corridor"},
+      {id:"ro18",text:"Wear Class D/N high visibility clothing at all times within the traffic corridor"},
+      {id:"ro19",text:"Establish a designated worker break area away from the road corridor at <<location>>"},
+      {id:"ro20",group:"Rail Corridor (if applicable)"},
+      {id:"ro21",text:"Confirm works are <<distance>>m from the nearest rail at the closest point — mark this boundary on site before work begins"},
+      {id:"ro22",text:"Notify and obtain written approval from the rail corridor owner before any work commences within or adjacent to the rail corridor"},
+      {id:"ro23",text:"Contact the Protection Officer (PPO) — name / phone: <<PPO name and phone number>> — at all times throughout the project"},
+      {id:"ro24",text:"Follow all requirements issued by the rail corridor owner or PPO — document requirements: <<list requirements here>>"},
+      {id:"ro25",text:"Maintain a documented log of all communication with the rail corridor owner and PPO — kept on site"},
+      {id:"ro26",text:"Stop all work immediately if a train approaches unexpectedly — do not resume until confirmed safe by the PPO"}
+    ]
+  },
+  {
+    id:"plant", icon:"🚜",
+    title:"Work in an area with movement of powered mobile plant",
+    hazards:[
+      "Workers struck by moving plant",
+      "Plant colliding with other plant or vehicles",
+      "Plant rollover causing injury to the operator",
+      "Uncontrolled movement due to mechanical failure",
+      "Inadequate communication between workers and plant operators"
+    ],
+    controls:[
+      {id:"pl1",group:"Plant Inspections"},
+      {id:"pl2",text:"Record a daily pre-start inspection for each piece of plant before operation — check brakes, lights, horn, mirrors, seatbelt, tyres and fluid levels"},
+      {id:"pl3",text:"Report all plant faults to the supervisor immediately — do not operate plant with a known defect"},
+      {id:"pl4",text:"Confirm each plant operator holds the appropriate competency or High Risk Work Licence for their class of plant"},
+      {id:"pl5",group:"Work Area Setup"},
+      {id:"pl6",text:"Conduct a prestart safety briefing with all workers and plant operators before work begins — confirm work zones, exclusion zones and communication methods"},
+      {id:"pl7",text:"Define and mark clear work zones for each piece of mobile plant using <<method e.g. witches hats / temporary fencing / bunting>>"},
+      {id:"pl8",text:"Establish a <<distance e.g. 5>>m exclusion zone between mobile plant and foot-traffic areas — marked with <<barrier type e.g. temporary fencing / bollards>>"},
+      {id:"pl9",text:"Place 'Mobile Plant Operating – Keep Clear' hazard signs at all access points to the work area"},
+      {id:"pl10",group:"Communication"},
+      {id:"pl11",text:"Communicate with all plant operators via two-way radio throughout the work — channel: <<channel number>>"},
+      {id:"pl12",text:"Communicate visually with operators only when in the operator's direct line of sight — never approach from behind or blind spots"},
+      {id:"pl13",text:"Prohibit the use of headphones or personal music devices while operating mobile plant"},
+      {id:"pl14",text:"Prohibit mobile phone use while operating mobile plant — phone use only when plant is stopped, in park, with brakes engaged"},
+      {id:"pl15",group:"Reversing"},
+      {id:"pl16",text:"Sound the horn <<number e.g. 3>> times before reversing — do not reverse until the area is confirmed clear"},
+      {id:"pl17",text:"Check all mirrors and blind spots before reversing — engage a Spotter if the rear view is obstructed"},
+      {id:"pl18",text:"Assign a competent Spotter when plant is reversing or manoeuvring near pedestrians — Spotter name: <<name>>"},
+      {id:"pl19",text:"Stop all plant movement immediately if the Spotter cannot be seen — do not move until Spotter location is confirmed"},
+      {id:"pl20",group:"Safe Operation"},
+      {id:"pl21",text:"Operate all plant at a maximum speed of <<speed e.g. 10>>km/h within the work area"},
+      {id:"pl22",text:"Lower blades, buckets and booms to the ground when plant is stationary or parked"},
+      {id:"pl23",text:"Place wheel chocks on both sides of rear wheels when plant is parked on any gradient"},
+      {id:"pl24",text:"Remove keys from the ignition when the operator is away from the plant"},
+      {id:"pl25",text:"Engage limit switches to restrict slew radius or boom height near overhead hazards"},
+      {id:"pl26",text:"Follow the rated load capacity of the plant — do not exceed manufacturer's specified limits"},
+      {id:"pl27",text:"Create a <<distance e.g. 5>>m exclusion zone between each piece of mobile plant during operation"},
+      {id:"pl28",group:"Site Vehicle Access"},
+      {id:"pl29",text:"Restrict site vehicle access to <<designated access route>> — all other vehicles park at <<designated location>> outside the work site"},
+      {id:"pl30",plantList:true}
+    ],
+    plantTypes:[
+      "Grader","Roller","Excavator","Dozer","Scraper","Loader","Backhoe",
+      "Skid Steer Loader","Water Truck","Service Truck","Side Tipper","Float",
+      "Truck and Dog","Truck and Plant Trailer","Ride-on Mower","Tractor Slasher",
+      "Tractor Broom","EWP","Forklift","Mobile Crane","Light Vehicle",
+      "Profiler","Bitumen Flocon","Cement Flocon","Patch Truck"
+    ]
+  },
+  {
+    id:"water", icon:"🌊",
+    title:"Work in or near water or other liquid that involves a risk of drowning",
+    hazards:[
+      "Workers falling into water causing drowning",
+      "Unstable or slippery embankments causing falls",
+      "Electrical equipment contact with water causing electrocution",
+      "Fast-moving, rising or flooding water conditions"
+    ],
+    controls:[
+      {id:"wa1",text:"Place a life ring on a stand at <<location>> — within <<distance e.g. 5>>m of the water's edge — before any work begins"},
+      {id:"wa2",text:"Fit each worker who can fall into the water with a Personal Flotation Device (PFD) Type <<type e.g. 1 or 2>>"},
+      {id:"wa3",text:"Barricade between the work area and the water edge using <<type e.g. temporary mesh fencing>> — no-go zone <<distance e.g. 2>>m from the water's edge with 'No Access' signage"},
+      {id:"wa4",text:"Place 'No Access – Steep and Unstable Embankment' signage at <<location>>"},
+      {id:"wa5",text:"Conduct work with a minimum of 2 persons present at all times near the water"},
+      {id:"wa6",text:"Fit a fall arrest harness connected to an approved anchor point when working within <<distance e.g. 2>>m of the water's edge"},
+      {id:"wa7",text:"Deploy a pontoon or floating work deck with handrails on all open sides as the work platform"},
+      {id:"wa8",text:"Use only battery-operated tools and equipment within <<distance e.g. 5>>m of the water source"},
+      {id:"wa9",text:"Confirm current weather, flood warnings and dam release status for <<waterway name>> via BOM before work begins"},
+      {id:"wa10",text:"Wear a PFD when throwing or retrieving the water truck hose into a dam, creek or river"},
+      {id:"wa11",text:"Stand <<distance e.g. 2>>m from the edge of the dam, creek or river while the water truck is filling"},
+      {id:"wa12",text:"Stand <<distance e.g. 2>>m from the edge while retrieving the hose — use a rope or dedicated tool to pull the hose clear"},
+      {id:"wa13",text:"Establish an emergency rescue procedure — rescue method: <<e.g. throw rope / life ring / rescue boat>> — rescue-competent worker on site: <<name>>"}
+    ]
+  }
+];
+
+// ── State ────────────────────────────────────────────────────────────────────
+const state = {
+  hrcw: {},
+  ctrl: {},
+  flds: {},
+  plants: {},
+  extra: {},
+  sigs: []
+};
+let versions = [];
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function getFieldId(secId, ctrlId, partIdx) {
+  return `fld_${secId}_${ctrlId}_${partIdx}`;
+}
+function isChecked(secId, ctrlId) {
+  return !!state.ctrl[`${secId}__${ctrlId}`];
+}
+function toggleCtrl(secId, ctrlId, el) {
+  const key = `${secId}__${ctrlId}`;
+  state.ctrl[key] = !state.ctrl[key];
+  el.classList.toggle("checked", !!state.ctrl[key]);
+  el.querySelector("input[type=checkbox]").checked = !!state.ctrl[key];
+  updateSectionCounts();
+}
+function updateSectionCounts() {
+  SECTIONS.forEach(sec => {
+    const ctrlItems = sec.controls.filter(c => !c.group && !c.plantList);
+    const checked = ctrlItems.filter(c => isChecked(sec.id, c.id)).length;
+    const el = document.getElementById(`count-${sec.id}`);
+    if (el) el.textContent = `${checked}/${ctrlItems.length} controls selected`;
+    // For print: mark section if has checked items
+    const block = document.getElementById(`section-${sec.id}`);
+    if (block) block.classList.toggle("has-checked", checked > 0);
+  });
+  updateVersionBadge();
+}
+
+// Parse <<label>> tokens into spans with inline inputs
+function renderControlText(secId, ctrlId, text) {
+  const parts = text.split(/(<<[^>]+>>)/g);
+  let html = "";
+  parts.forEach((p, i) => {
+    const m = p.match(/^<<(.+)>>$/);
+    if (!m) {
+      html += escHtml(p);
+    } else {
+      const fId = getFieldId(secId, ctrlId, i);
+      const placeholder = m[1];
+      const savedVal = state.flds[fId] || "";
+      html += `<input type="text" class="fill-input" id="${fId}" placeholder="${escHtml(placeholder)}" value="${escHtml(savedVal)}" onclick="event.stopPropagation()" onchange="saveFld('${fId}',this.value)">`;
+    }
+  });
+  return html;
+}
+function escHtml(s) {
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function saveFld(id, val) { state.flds[id] = val; }
+
+// ── Build UI ─────────────────────────────────────────────────────────────────
+function buildHRCWSelector() {
+  const el = document.getElementById("hrcw-selector");
+  el.innerHTML = "";
+  SECTIONS.forEach(sec => {
+    const item = document.createElement("div");
+    item.className = "hrcw-item" + (state.hrcw[sec.id] ? " checked" : "");
+    item.id = `hrcw-${sec.id}`;
+    item.innerHTML = `
+      <input type="checkbox" ${state.hrcw[sec.id]?"checked":""} onchange="event.stopPropagation()">
+      <div>
+        <div class="hrcw-icon">${sec.icon}</div>
+        <div class="hrcw-label">${sec.title}</div>
+      </div>`;
+    item.addEventListener("click", () => {
+      state.hrcw[sec.id] = !state.hrcw[sec.id];
+      item.classList.toggle("checked", !!state.hrcw[sec.id]);
+      item.querySelector("input").checked = !!state.hrcw[sec.id];
+      rebuildSections();
+    });
+    el.appendChild(item);
+  });
+}
+
+function rebuildSections() {
+  const container = document.getElementById("sections-container");
+  const header = document.getElementById("controls-header");
+  const customSec = document.getElementById("custom-section");
+  const warn = document.getElementById("hrcw-warn");
+  const selSecs = SECTIONS.filter(s => state.hrcw[s.id]);
+
+  warn.style.display = Object.values(state.hrcw).some(Boolean) ? "none" : "block";
+
+  if (selSecs.length === 0) {
+    header.style.display = "none";
+    customSec.style.display = "none";
+    container.innerHTML = "";
+    return;
+  }
+  header.style.display = "block";
+  customSec.style.display = "block";
+  container.innerHTML = "";
+  selSecs.forEach(sec => container.appendChild(buildSection(sec)));
+  updateSectionCounts();
+}
+
+function buildSection(sec) {
+  const block = document.createElement("div");
+  block.className = "section-block";
+  block.id = `section-${sec.id}`;
+
+  // Header
+  const head = document.createElement("div");
+  head.className = "section-head";
+  head.innerHTML = `
+    <div class="section-head-left">
+      <span class="section-head-icon">${sec.icon}</span>
+      <div>
+        <div class="section-head-title">${sec.title}</div>
+        <div class="section-head-count" id="count-${sec.id}">0 controls selected</div>
+      </div>
+    </div>
+    <span class="section-head-arrow" id="arrow-${sec.id}">▼</span>`;
+
+  let collapsed = false;
+  head.addEventListener("click", () => {
+    collapsed = !collapsed;
+    body.style.display = collapsed ? "none" : "block";
+    document.getElementById(`arrow-${sec.id}`).textContent = collapsed ? "▶" : "▼";
+  });
+  block.appendChild(head);
+
+  // Body
+  const body = document.createElement("div");
+  body.className = "section-body";
+
+  // Hazard box
+  let hazHtml = `<div class="hazard-box"><div class="hazard-title">⚠️ Identified Hazards and Risks</div>`;
+  sec.hazards.forEach(h => { hazHtml += `<div class="hazard-item"><span style="color:var(--warn);flex-shrink:0">•</span><span>${escHtml(h)}</span></div>`; });
+  hazHtml += "</div>";
+  body.innerHTML = hazHtml;
+
+  body.innerHTML += `<div class="ctrl-instruction">☑ Tick only the controls you will implement — fill in all specific details</div>`;
+
+  // Controls
+  sec.controls.forEach(ctrl => {
+    if (ctrl.group) {
+      const g = document.createElement("div");
+      g.className = "ctrl-group";
+      g.textContent = ctrl.group;
+      body.appendChild(g);
+      return;
+    }
+    if (ctrl.plantList) {
+      const wrapper = document.createElement("div");
+      wrapper.style.cssText = "border:1px solid var(--g300);border-radius:8px;padding:14px;margin-bottom:4px";
+      wrapper.innerHTML = `<div style="font-weight:bold;color:var(--navy);font-size:13px;margin-bottom:10px">Plant operating in this work area (tick all that apply):</div>`;
+      const grid = document.createElement("div");
+      grid.className = "plant-grid";
+      sec.plantTypes.forEach(plant => {
+        const label = document.createElement("label");
+        label.className = "plant-item";
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!state.plants[plant];
+        cb.addEventListener("change", () => { state.plants[plant] = cb.checked; });
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(plant));
+        grid.appendChild(label);
+      });
+      // Other plant
+      const otherLabel = document.createElement("label");
+      otherLabel.className = "plant-item";
+      otherLabel.style.gridColumn = "1/-1";
+      otherLabel.innerHTML = `<input type="checkbox" ${state.plants["__other"]?"checked":""} onchange="state.plants['__other']=this.checked"> Other: <input type="text" class="fill-input" style="min-width:150px" placeholder="Specify plant type" value="${escHtml(state.plants["__other_name"]||"")}" onclick="event.stopPropagation()" onchange="state.plants['__other_name']=this.value">`;
+      grid.appendChild(otherLabel);
+      wrapper.appendChild(grid);
+      body.appendChild(wrapper);
+      return;
+    }
+    // Regular control row
+    const row = document.createElement("div");
+    row.className = "ctrl-row" + (isChecked(sec.id, ctrl.id) ? " checked" : "");
+    row.innerHTML = `
+      <input type="checkbox" ${isChecked(sec.id,ctrl.id)?"checked":""} onchange="event.stopPropagation()">
+      <div class="ctrl-text">${renderControlText(sec.id, ctrl.id, ctrl.text)}</div>`;
+    row.addEventListener("click", e => {
+      if (e.target.tagName === "INPUT" && e.target.type === "text") return;
+      toggleCtrl(sec.id, ctrl.id, row);
+    });
+    body.appendChild(row);
+  });
+
+  // Extra controls field
+  body.innerHTML += `
+    <div class="extra-label">Additional site-specific controls for this HRCW type:</div>
+    <textarea class="extra-area" placeholder="Enter any controls specific to this site or task not listed above…" onchange="state.extra['${sec.id}']=this.value">${escHtml(state.extra[sec.id]||"")}</textarea>`;
+
+  block.appendChild(body);
+  return block;
+}
+
+// ── Signature table ───────────────────────────────────────────────────────────
+function renderSigTable() {
+  const tbody = document.getElementById("sig-tbody");
+  tbody.innerHTML = "";
+  // Ensure at least 12 rows
+  while (state.sigs.length < 12) state.sigs.push({date:"",name:"",position:""});
+  state.sigs.forEach((s,i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><input class="sig-input" type="date" value="${s.date||""}" onchange="state.sigs[${i}].date=this.value"></td>
+      <td><input class="sig-input" type="text" value="${escHtml(s.name||"")}" onchange="state.sigs[${i}].name=this.value"></td>
+      <td><input class="sig-input" type="text" value="${escHtml(s.position||"")}" onchange="state.sigs[${i}].position=this.value"></td>
+      <td><span class="sig-cell-blank"></span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function addSigRow() {
+  state.sigs.push({date:"",name:"",position:""});
+  renderSigTable();
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById(`tab-${name}`).classList.add("active");
+  btn.classList.add("active");
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 3000);
+}
+
+// ── Version control ───────────────────────────────────────────────────────────
+function collectFormFields() {
+  const get = id => { const el = document.getElementById(id); return el ? el.value : ""; };
+  return {
+    address: get("f-address"), date: get("f-date"), workGroup: get("f-workgroup"),
+    project: get("f-project"), jobNumber: get("f-jobnum"), abn: get("f-abn"),
+    supervisor: get("f-supervisor"), supPhone: get("f-supphone"), pc: get("f-pc"),
+    supName: get("sup-name"), supRole: get("sup-role"), supDate: get("sup-date"), supSig: get("sup-sig"),
+    customTask: get("custom-task"), customHazards: get("custom-hazards"), customControls: get("custom-controls")
+  };
+}
+
+function captureAllFillInputs() {
+  const result = {};
+  document.querySelectorAll(".fill-input").forEach(el => {
+    if (el.id) result[el.id] = el.value;
+  });
+  return result;
+}
+
+function captureExtraAreas() {
+  const result = {};
+  SECTIONS.forEach(sec => {
+    const sel = document.querySelector(`[id="section-${sec.id}"] .extra-area`);
+    if (sel) result[sec.id] = sel.value;
+  });
+  return result;
+}
+
+function saveVersion() {
+  const note = document.getElementById("save-note").value || "Saved";
+  // Capture current fill values
+  Object.assign(state.flds, captureAllFillInputs());
+  Object.assign(state.extra, captureExtraAreas());
+  const formFields = collectFormFields();
+  const snap = {
+    id: Date.now(),
+    date: new Date().toLocaleString("en-AU"),
+    note,
+    state: JSON.parse(JSON.stringify(state)),
+    form: formFields,
+    versionNum: versions.length + 1
+  };
+  versions.unshift(snap);
+  if (versions.length > 30) versions.pop();
+  try { localStorage.setItem("rrc_swms_versions", JSON.stringify(versions)); } catch(e){}
+  document.getElementById("save-note").value = "";
+  updateVersionBadge();
+  renderVersionList();
+  showToast("✅ Version " + snap.versionNum + " saved");
+}
+
+function updateVersionBadge() {
+  const vd = document.getElementById("version-display");
+  const vc = document.getElementById("ver-count");
+  vd.textContent = versions.length > 0 ? "v" + versions.length : "Draft";
+  vc.textContent = versions.length;
+}
+
+function renderVersionList() {
+  const list = document.getElementById("version-list");
+  if (versions.length === 0) {
+    list.innerHTML = "<p style='color:var(--g600);font-size:14px'>No versions saved yet. Fill in the SWMS and use the Save Version button.</p>";
+    return;
+  }
+  list.innerHTML = "";
+  versions.forEach((v, i) => {
+    const ctrlCount = Object.values(v.state.ctrl||{}).filter(Boolean).length;
+    const hrcwCount = Object.values(v.state.hrcw||{}).filter(Boolean).length;
+    const item = document.createElement("div");
+    item.className = "version-item" + (i===0?" latest":"");
+    item.innerHTML = `
+      <div class="version-row">
+        <div style="flex:1">
+          <div class="version-meta">v${v.versionNum} — ${v.date}${i===0?'<span class="latest-badge">Latest</span>':''}</div>
+          <div class="version-note">${escHtml(v.note)}</div>
+          <div class="version-detail">Site: ${escHtml(v.form?.address||"—")} &bull; HRCW types: ${hrcwCount} &bull; Controls selected: ${ctrlCount}</div>
+        </div>
+        <button class="btn-restore" onclick="restoreVersion(${i})">Restore</button>
+      </div>`;
+    list.appendChild(item);
+  });
+}
+
+function restoreVersion(idx) {
+  const v = versions[idx];
+  if (!v) return;
+  // Restore state
+  Object.assign(state.hrcw, v.state.hrcw||{});
+  Object.assign(state.ctrl, v.state.ctrl||{});
+  Object.assign(state.flds, v.state.flds||{});
+  Object.assign(state.plants, v.state.plants||{});
+  Object.assign(state.extra, v.state.extra||{});
+  state.sigs = (v.state.sigs||[]).map(s=>({...s}));
+  // Restore form fields
+  const fm = v.form || {};
+  const setVal = (id,val) => { const el=document.getElementById(id); if(el) el.value=val||""; };
+  setVal("f-address",fm.address); setVal("f-date",fm.date); setVal("f-workgroup",fm.workGroup);
+  setVal("f-project",fm.project); setVal("f-jobnum",fm.jobNumber); setVal("f-abn",fm.abn);
+  setVal("f-supervisor",fm.supervisor); setVal("f-supphone",fm.supPhone); setVal("f-pc",fm.pc);
+  setVal("sup-name",fm.supName); setVal("sup-role",fm.supRole);
+  setVal("sup-date",fm.supDate); setVal("sup-sig",fm.supSig);
+  setVal("custom-task",fm.customTask); setVal("custom-hazards",fm.customHazards); setVal("custom-controls",fm.customControls);
+  // Rebuild HRCW selector and sections
+  buildHRCWSelector();
+  rebuildSections();
+  renderSigTable();
+  // Switch to form tab
+  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("tab-form").classList.add("active");
+  document.querySelectorAll(".tab-btn")[0].classList.add("active");
+  showToast("✅ Restored: " + v.note);
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+window.addEventListener("DOMContentLoaded", () => {
+  // Load versions from localStorage
+  try {
+    const saved = localStorage.getItem("rrc_swms_versions");
+    if (saved) versions = JSON.parse(saved);
+  } catch(e) {}
+
+  // Set today's date
+  document.getElementById("f-date").value = new Date().toISOString().split("T")[0];
+
+  buildHRCWSelector();
+  rebuildSections();
+  renderSigTable();
+  renderVersionList();
+  updateVersionBadge();
+});
+</script>
+</body>
+</html>
