@@ -118,6 +118,37 @@ input,textarea,select{font-family:inherit}
 #toast.show{opacity:1}
 .tab-content{display:none}
 .tab-content.active{display:block}
+
+/* ── REVIEW MODE ────────────────────────────────────────── */
+.review-banner{display:none;background:var(--teal);color:#fff;padding:12px 18px;border-radius:10px;margin-bottom:14px;align-items:center;gap:12px;flex-wrap:wrap}
+.review-banner.active{display:flex}
+.review-banner-text{flex:1;font-size:13px;font-weight:bold}
+.review-banner-sub{font-size:12px;font-weight:normal;opacity:.85;margin-top:2px}
+.btn-edit{background:#fff;color:var(--teal);border:none;border-radius:6px;padding:10px 18px;cursor:pointer;font-weight:bold;font-size:13px;flex-shrink:0;white-space:nowrap}
+.btn-edit:hover{background:rgba(255,255,255,.88)}
+body.review-mode .ctrl-row:not(.checked){display:none!important}
+body.review-mode .hazard-row:not(.hchecked){display:none!important}
+body.review-mode .hrcw-item:not(.checked){display:none!important}
+body.review-mode .inline-opt:not(.selected){display:none!important}
+body.review-mode .section-block:not(.has-checked){display:none!important}
+body.review-mode #custom-section{display:none!important}
+body.review-mode .ctrl-group{padding:4px 0;border-bottom:1px dashed var(--g300)}
+body.review-mode .ctrl-row{cursor:default;pointer-events:none}
+body.review-mode .ctrl-row input[type=checkbox]{pointer-events:none}
+body.review-mode .hazard-row{cursor:default;pointer-events:none}
+body.review-mode .hrcw-item{cursor:default;pointer-events:none}
+body.review-mode #save-bar{display:none!important}
+body.review-mode .extra-area{pointer-events:none;border:1px dashed var(--g300);background:var(--g50)}
+body.review-mode .fill-input{pointer-events:none}
+body.review-mode .no-print{display:none!important}
+body.review-mode .btn-add-row{display:none!important}
+body.review-mode .review-edit-bar{display:flex!important}
+.review-edit-bar{display:none;background:var(--navy-dark);border-radius:10px;padding:12px 18px;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.review-edit-bar-text{flex:1;font-size:13px;color:rgba(255,255,255,.8)}
+.btn-edit-mode{background:var(--warn);color:#fff;border:none;border-radius:6px;padding:10px 20px;cursor:pointer;font-weight:bold;font-size:14px;flex-shrink:0}
+.btn-edit-mode:hover{background:#c0621a}
+.btn-print-rev{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:10px 16px;cursor:pointer;font-size:14px;flex-shrink:0}
+.btn-print-rev:hover{background:rgba(255,255,255,.2)}
 @media(max-width:600px){
   .field-grid{grid-template-columns:1fr}
   .span2{grid-column:1/-1}
@@ -177,6 +208,14 @@ input,textarea,select{font-family:inherit}
 </div>
 <div class="page">
   <div id="tab-form" class="tab-content active">
+    <!-- Review mode banner (shown when viewing saved SWMS) -->
+    <div class="review-banner" id="review-banner">
+      <div>
+        <div class="review-banner-text">Viewing Saved SWMS</div>
+        <div class="review-banner-sub">Only your selected HRCW types, hazards and controls are shown. Click Edit to make changes.</div>
+      </div>
+      <button class="btn-edit" onclick="exitReviewMode()">Edit SWMS</button>
+    </div>
     <div class="card" style="border-top:3px solid var(--teal)">
       <div class="card-body">
         <div class="info-title">How to Use This SWMS</div>
@@ -280,6 +319,11 @@ input,textarea,select{font-family:inherit}
       <input type="text" class="save-note" id="save-note" placeholder="Version note, e.g. Updated barrier type after site walk">
       <button class="btn-save" onclick="saveVersion()">Save Version</button>
       <button class="btn-print" onclick="window.print()">Print / PDF</button>
+    </div>
+    <div class="review-edit-bar" id="review-edit-bar">
+      <div class="review-edit-bar-text">SWMS saved. You are viewing your selected items only.</div>
+      <button class="btn-edit-mode" onclick="exitReviewMode()">Edit SWMS</button>
+      <button class="btn-print-rev" onclick="window.print()">Print / PDF</button>
     </div>
   </div>
   <div id="tab-versions" class="tab-content">
@@ -1162,6 +1206,18 @@ function saveVersion(){
   updateVersionBadge();
   renderVersionList();
   showToast("Version "+snap.versionNum+" saved");
+  enterReviewMode();
+}
+
+function enterReviewMode(){
+  document.body.classList.add("review-mode");
+  document.getElementById("review-banner").classList.add("active");
+}
+
+function exitReviewMode(){
+  document.body.classList.remove("review-mode");
+  document.getElementById("review-banner").classList.remove("active");
+  showToast("Edit mode — all options visible");
 }
 function updateVersionBadge(){
   document.getElementById("version-display").textContent=versions.length>0?"v"+versions.length:"Draft";
